@@ -1,0 +1,79 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-steel-50: #f5f6f7;
+  --color-steel-100: #e6e8eb;
+  --color-steel-200: #ccd1d6;
+  --color-steel-300: #a7b0b8;
+  --color-steel-400: #7d8995;
+  --color-steel-500: #5d6b78;
+  --color-steel-600: #4a5661;
+  --color-steel-700: #3c4650;
+  --color-steel-800: #2f373f;
+  --color-steel-900: #1a1f25;
+  --color-steel-950: #0d1115;
+
+  --color-accent-400: #d4a943;
+  --color-accent-500: #c19a33;
+  --color-accent-600: #a8841f;
+
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-display: 'Inter', system-ui, sans-serif;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    background-color: var(--color-steel-950);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.4s ease-out forwards;
+}
+
+.steel-texture {
+  background-image: linear-gradient(135deg, #1a1f25 0%, #2f373f 50%, #1a1f25 100%);
+}
+
+.steel-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(212, 169, 67, 0.15), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 3s infinite;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-steel-900);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-steel-600);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-steel-500);
+}

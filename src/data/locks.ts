@@ -59,18 +59,6 @@ Serrure;Feu;Unico;3;G;non;E;serrure 3p verrouill. auto CP;986470;987026 + 987028
 Serrure;Feu;Unico;3;D;non;E;serrure 3p verrouill. auto CP;986470;987026 + 987027;Hauteur 2720
 Serrure;Feu;Unico;3;D;non;B;serrure 3p verrouill. auto CP;986476;987026 + 987028;Hauteur 2720
 Serrure;Feu;Unico;3;G;non;B;serrure 3p verrouill. auto CP;986477;987026 + 987027;Hauteur 2720
-Serrure;RC3;Unico;5;G;non;-;serrure 5 points CP RC3 G/D;986452;987709;Rosace RC 917031 + Hauteur 2172
-Serrure;RC3;Unico;5;G;non;-;serrure 5 points CP RC3 G/D;986454;987709;Rosace RC 917031 + Hauteur 2421
-Serrure;RC3;Unico;5;G;non;-;serrure 5 points CP RC3 G/D;986456;987709;Rosace RC 917031 + Hauteur 2700
-Serrure;RC3;Unico;5;D;non;-;serrure 5 points CP RC3 G/D;986452;987710;Rosace RC 917031 + Hauteur 2172
-Serrure;RC3;Unico;5;D;non;-;serrure 5 points CP RC3 G/D;986454;987710;Rosace RC 917031 + Hauteur 2421
-Serrure;RC3;Unico;5;D;non;-;serrure 5 points CP RC3 G/D;986456;987710;Rosace RC 917031 + Hauteur 2700
-Serrure;RC4;Unico;5;G;non;-;serrure 5 points CP RC3 G/D;986452;987709;Rosace RC 917031 + Hauteur 2172
-Serrure;RC4;Unico;5;G;non;-;serrure 5 points CP RC3 G/D;986454;987709;Rosace RC 917031 + Hauteur 2421
-Serrure;RC4;Unico;5;G;non;-;serrure 5 points CP RC3 G/D;986456;987709;Rosace RC 917031 + Hauteur 3300
-Serrure;RC4;Unico;5;D;non;-;serrure 5 points CP RC3 G/D;986452;987710;Rosace RC 917031 + Hauteur 2172
-Serrure;RC4;Unico;5;D;non;-;serrure 5 points CP RC3 G/D;986454;987710;Rosace RC 917031 + Hauteur 2421
-Serrure;RC4;Unico;5;D;non;-;serrure 5 points CP RC3 G/D;986456;987710;Rosace RC 917031 + Hauteur 3300
 Crémone;Standard;Unico;2;Réversible;non;-;crémone à levier manuelle;987454;987702 + 987072(x3) + 987010 + 987011 + 987071(x2) + 987051;-
 Crémone;Standard;Unico;2;Réversible;non;-;crémone auto 35mm;987456;987703;-
 Crémone;;Unico;2;Réversible;non;-;Crémone à levier avec verrouillage;987456;987006 + 987002 + 987004 + 987005 + 987011 + 987072 + 987010 + 987051;-

@@ -1,8 +1,42 @@
 import { useMemo, useState } from 'react';
 import { Lock, KeyRound, ShieldCheck, Flame, Layers, Zap, DoorOpen, RotateCcw, Search, X, ChevronRight } from 'lucide-react';
 import { lockData, filterFields, getUniqueValues, type LockEntry } from '@/data/locks';
+import { solutionsSecurite, texteRecherche, type SolutionSecurite } from '@/data/securite';
+import { CarteSecurite, FicheSecuriteModal } from '@/components/FicheSecurite';
 
 type Filters = Partial<Record<keyof LockEntry, string[]>>;
+
+/** Valeurs d'une solution RC3/RC4 pour un filtre ([] = non renseigné). */
+const valeursSolution = (s: SolutionSecurite, field: keyof LockEntry): string[] => {
+  switch (field) {
+    case 'type':
+      return [s.type];
+    case 'protection':
+      return [s.protection];
+    case 'serie':
+      return [s.serie];
+    case 'din':
+      return s.din;
+    case 'electrique':
+      return s.electrique;
+    default:
+      return [];
+  }
+};
+
+/** Valeurs proposées dans un filtre : serrures/crémones + solutions RC3/RC4. */
+const valeursFiltre = (field: keyof LockEntry): string[] => {
+  const set = new Set(getUniqueValues(field));
+  solutionsSecurite.forEach((s) => valeursSolution(s, field).forEach((v) => set.add(v)));
+  return Array.from(set).sort((a, b) => {
+    const numA = parseInt(a, 10);
+    const numB = parseInt(b, 10);
+    if (!isNaN(numA) && !isNaN(numB)) return numA - numB;
+    return a.localeCompare(b);
+  });
+};
+
+const totalProduits = lockData.length + solutionsSecurite.length;
 
 const fieldIcons: Record<string, typeof Lock> = {
   type: Layers,
@@ -25,6 +59,7 @@ const protectionBadgeColor = (protection: string): string => {
 function App() {
   const [filters, setFilters] = useState<Filters>({});
   const [search, setSearch] = useState('');
+  const [ficheOuverte, setFicheOuverte] = useState<SolutionSecurite | null>(null);
 
   const toggleFilter = (field: keyof LockEntry, value: string) => {
     setFilters((prev) => {
@@ -72,6 +107,22 @@ function App() {
     });
   }, [filters, search]);
 
+  const filteredSolutions = useMemo(() => {
+    return solutionsSecurite.filter((s) => {
+      for (const field of filterFields) {
+        const selected = filters[field.key];
+        if (selected && selected.length > 0) {
+          const valeurs = valeursSolution(s, field.key);
+          if (!valeurs.some((v) => selected.includes(v))) return false;
+        }
+      }
+      if (search.trim() && !texteRecherche(s).includes(search.toLowerCase())) return false;
+      return true;
+    });
+  }, [filters, search]);
+
+  const nbResultats = filtered.length + filteredSolutions.length;
+
   const activeFilterCount = Object.values(filters).reduce((acc, arr) => acc + (arr?.length ?? 0), 0);
 
   return (
@@ -93,10 +144,10 @@ function App() {
             </div>
             <div className="hidden items-center gap-2 text-xs text-steel-400 sm:flex">
               <span className="rounded-full border border-steel-700/60 px-3 py-1">
-                {lockData.length} produits
+                {totalProduits} produits
               </span>
               <span className="rounded-full border border-accent-500/30 bg-accent-500/10 px-3 py-1 text-accent-400">
-                {filtered.length} résultat{filtered.length !== 1 ? 's' : ''}
+                {nbResultats} résultat{nbResultats !== 1 ? 's' : ''}
               </span>
             </div>
           </div>
@@ -117,7 +168,8 @@ function App() {
               <span className="block text-accent-400">adaptée à votre système</span>
             </h1>
             <p className="mt-4 text-base leading-relaxed text-steel-300">
-              Filtrez en temps réel parmi les serrures et crémones Forster Presto, Fuego et Unico.
+              Filtrez en temps réel parmi les serrures et crémones Forster Presto, Fuego et Unico,
+              et les solutions de sécurité RC3 / RC4.
               Affinez par type, protection, série, nombre de points et plus encore.
             </p>
           </div>
@@ -159,7 +211,7 @@ function App() {
 
               <div className="space-y-5">
                 {filterFields.map((field) => {
-                  const values = getUniqueValues(field.key);
+                  const values = valeursFiltre(field.key);
                   const selected = filters[field.key] ?? [];
                   const Icon = fieldIcons[field.key] ?? Lock;
                   return (
@@ -204,12 +256,36 @@ function App() {
           <main>
             <div className="mb-4 flex items-center justify-between">
               <div className="flex items-center gap-2 text-sm text-steel-300">
-                <span className="font-semibold text-white">{filtered.length}</span>
-                produit{filtered.length !== 1 ? 's' : ''} trouvé{filtered.length !== 1 ? 's' : ''}
+                <span className="font-semibold text-white">{nbResultats}</span>
+                produit{nbResultats !== 1 ? 's' : ''} trouvé{nbResultats !== 1 ? 's' : ''}
               </div>
             </div>
 
-            {filtered.length === 0 ? (
+            {filteredSolutions.length > 0 && (
+              <section className="mb-8">
+                <h2 className="mb-3 flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-steel-200">
+                  <ShieldCheck className="h-4 w-4 text-accent-400" />
+                  Solutions de sécurité RC3 / RC4
+                  <span className="rounded-full bg-accent-500/20 px-2 py-0.5 text-[10px] font-medium text-accent-400">
+                    {filteredSolutions.length}
+                  </span>
+                </h2>
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
+                  {filteredSolutions.map((s) => (
+                    <CarteSecurite key={s.id} solution={s} onOpen={() => setFicheOuverte(s)} />
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {filtered.length > 0 && filteredSolutions.length > 0 && (
+              <h2 className="mb-3 flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-steel-200">
+                <Lock className="h-4 w-4 text-accent-400" />
+                Serrures et crémones
+              </h2>
+            )}
+
+            {nbResultats === 0 ? (
               <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-steel-700/60 bg-steel-900/30 py-20 text-center">
                 <Search className="mb-4 h-10 w-10 text-steel-600" strokeWidth={1} />
                 <h3 className="text-lg font-medium text-steel-200">Aucun résultat</h3>
@@ -297,6 +373,10 @@ function App() {
           </main>
         </div>
       </div>
+
+      {ficheOuverte && (
+        <FicheSecuriteModal solution={ficheOuverte} onClose={() => setFicheOuverte(null)} />
+      )}
 
       {/* Footer */}
       <footer className="border-t border-steel-800/60 bg-steel-950/60">

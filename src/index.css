@@ -1,31 +1,45 @@
 @import 'tailwindcss';
 
+/* Charte graphique Forster – polices Faktum (René Bieder) */
+@font-face {
+  font-family: 'Faktum';
+  src: url('/fonts/Faktum-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Faktum';
+  src: url('/fonts/Faktum-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Faktum';
+  src: url('/fonts/Faktum-SemiBold.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Charte graphique Forster – couleurs */
 @theme {
-  --color-steel-50: #f5f6f7;
-  --color-steel-100: #e6e8eb;
-  --color-steel-200: #ccd1d6;
-  --color-steel-300: #a7b0b8;
-  --color-steel-400: #7d8995;
-  --color-steel-500: #5d6b78;
-  --color-steel-600: #4a5661;
-  --color-steel-700: #3c4650;
-  --color-steel-800: #2f373f;
-  --color-steel-900: #1a1f25;
-  --color-steel-950: #0d1115;
+  --color-fo-blue: #003c75; /* Main blue : logo, en-tête, bandeaux */
+  --color-fo-blue2: #0f4196; /* Secondary blue : icônes, mises en avant, données techniques */
+  --color-fo-ink: #051939; /* Text blue : tout le texte */
+  --color-fo-grey: #dde2e9; /* Grey : fonds, panneaux */
 
-  --color-accent-400: #d4a943;
-  --color-accent-500: #c19a33;
-  --color-accent-600: #a8841f;
-
-  --font-sans: 'Inter', system-ui, sans-serif;
-  --font-display: 'Inter', system-ui, sans-serif;
+  --font-sans: 'Faktum', system-ui, sans-serif;
+  --font-display: 'Faktum', system-ui, sans-serif;
 }
 
 @layer base {
   body {
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
-    background-color: var(--color-steel-950);
+    background-color: #ffffff;
+    color: var(--color-fo-ink);
   }
 }
 
@@ -40,27 +54,8 @@
   }
 }
 
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-}
-
 .animate-fade-in-up {
   animation: fadeInUp 0.4s ease-out forwards;
-}
-
-.steel-texture {
-  background-image: linear-gradient(135deg, #1a1f25 0%, #2f373f 50%, #1a1f25 100%);
-}
-
-.steel-shimmer {
-  background: linear-gradient(90deg, transparent, rgba(212, 169, 67, 0.15), transparent);
-  background-size: 200% 100%;
-  animation: shimmer 3s infinite;
 }
 
 ::-webkit-scrollbar {
@@ -68,12 +63,12 @@
   height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--color-steel-900);
+  background: #f3f5f8;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--color-steel-600);
+  background: var(--color-fo-grey);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-steel-500);
+  background: #b9c2ce;
 }
